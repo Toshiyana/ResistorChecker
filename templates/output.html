@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>抵抗値の出力</title>
+  </head>
+  <body bgcolor="#FFFFCC">
+  <center>
+    <h1>抵抗値の予測結果</h1>
+    <img src={{img}} alt="今回の画像" width="300" height="300">
+    {% if answer %}
+      <p>これは{{percentage}}%の確率で{{answer}}Ωです</p>
+      <a href="./">トップへ戻る</a>
+    {% else %}
+      <a href="./">トップへ戻る</a>
+    {% endif %}
+  </center>
+  </body>
+</html>
