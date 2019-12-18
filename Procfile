@@ -1,1 +1,1 @@
-web: gunicorn resistor-checker:app --log-file=-
+web: gunicorn app:app.py --log-file=-
