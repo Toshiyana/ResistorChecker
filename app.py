@@ -68,6 +68,10 @@ def posttest():
         qr_b64data = "data:image/png;base64,{}".format(qr_b64str)
         return render_template('output.html',answer = answer ,img = qr_b64data, percentage=per)
 
+@app.errorhandler(503):
+    def all_error_handler(error):
+        return 'InternalSeverError\n', 503
+
 #pythonインタープリタからの実行時のみサーバで起動し、モジュールとしてインポートされたときには起動しない
 if __name__ == "__main__":
     app.run()
