@@ -7,10 +7,8 @@ from PIL import ImageFile
 import base64
 from cnn_model import def_model, get_model
 from keras.backend import tensorflow_backend as backend
-from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
 
 @app.route('/',methods = ['GET', 'POST'])
 def index():
@@ -74,4 +72,4 @@ def posttest():
 
 #pythonインタープリタからの実行時のみサーバで起動し、モジュールとしてインポートされたときには起動しない
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
