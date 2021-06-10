@@ -56,15 +56,24 @@ def posttest():
         per=str(int(pre[idx]*100))
         answer=labels[idx]
 
-        #画像書き込み用バッファに画像を保存してhtmlに返す
-        #(画像ファイルを静的に保存しないで、render_template()を使って表示する方法　)
+
+        #---画像ファイルを静的に保存しないで、render_template()を使って表示--------------------------------------------
+        #（HTMLのimage要素にはsrc属性にbase64でエンコードしたメディア情報を埋め込むことでも画像が表示できるので、今回はそれを利用。画像名はalt属性に挿入。）
         #https://teratail.com/questions/89341
+
+        # 画像書き込み用バッファを確保して画像データをそこに書き込む
         buf = io.BytesIO()
         image = Image.open(img_file)
         image.save(buf, 'png')
+
+        # バイナリデータをbase64でエンコードし、それをさらにutf-8でデコードしておく
         qr_b64str = base64.b64encode(buf.getvalue()).decode("utf-8")
+
+        # image要素のsrc属性に埋め込めこむために、適切に付帯情報を付与する
         qr_b64data = "data:image/png;base64,{}".format(qr_b64str)
+
         return render_template('output.html',answer = answer ,img = qr_b64data, percentage=per)
+
 
 #pythonインタープリタからの実行時のみサーバで起動し、モジュールとしてインポートされたときには起動しない
 if __name__ == "__main__":
