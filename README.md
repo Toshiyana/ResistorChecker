@@ -1,6 +1,16 @@
 # Resistor Checker
 抵抗器の抵抗値を画像から判別するアプリケーション
 
+## 開発理由：
+* カラーコードを覚える、カラーコード表を確認するのが面倒
+* 電子工作の開発効率の向上
+
+## 実行画面
+![](https://github.com/Toshiyana/hait_resistor/blob/master/static/view1.png)
+
+![](https://github.com/Toshiyana/hait_resistor/blob/master/static/view2.png)
+
+
 ## Version
 * python-3.7.10
 
@@ -31,7 +41,3 @@ module 'tensorflow.python.keras.utils.generic_utils' has no attribute 'populate_
 pip list | grep tf
 pip install tensorflow --upgrade --force-reinstall
 ```
-
-
-## reference
-* [HerokuにFlaskアプリをデプロイ](https://qiita.com/redpanda/items/a056daea48b545250ce7)
