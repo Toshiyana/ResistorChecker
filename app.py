@@ -6,7 +6,6 @@ from PIL import Image
 from PIL import ImageFile
 import base64
 from cnn_model import def_model, get_model
-from keras.backend import tensorflow_backend as backend
 
 app = Flask(__name__)
 
@@ -39,7 +38,6 @@ def posttest():
                   "100k","220k","470k",
                   "1M","2.2M"]
 
-        backend.clear_session()
         model= get_model((photo_size,photo_size,3),17)#画像のshape、ラベルデータの数
         model.load_weights("./photo_size=60_batch_size=32_epochs=23_per=97.5_.hdf5")
 
@@ -52,13 +50,15 @@ def posttest():
         x=x.reshape(-1,photo_size,photo_size,3)#画像のshape
         x=x/255
 
-        #予測する！！
+        #予測
         pre=model.predict([x])[0]
         idx=pre.argmax()
         per=str(int(pre[idx]*100))
         answer=labels[idx]
 
         #画像書き込み用バッファに画像を保存してhtmlに返す
+        #(画像ファイルを静的に保存しないで、render_template()を使って表示する方法　)
+        #https://teratail.com/questions/89341
         buf = io.BytesIO()
         image = Image.open(img_file)
         image.save(buf, 'png')
@@ -66,10 +66,7 @@ def posttest():
         qr_b64data = "data:image/png;base64,{}".format(qr_b64str)
         return render_template('output.html',answer = answer ,img = qr_b64data, percentage=per)
 
-@app.errorhandler(503):
-    def all_error_handler(error):
-        return 'InternalSeverError\n', 503
-
 #pythonインタープリタからの実行時のみサーバで起動し、モジュールとしてインポートされたときには起動しない
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    app.run()
+    #app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
